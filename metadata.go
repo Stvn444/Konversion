@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"os/exec"
@@ -27,11 +28,18 @@ func FetchMetadata(url string, verbose bool) (*VideoInfo, error) {
 	cmd := exec.Command("yt-dlp", "--dump-json", "--no-warnings", "--no-playlist", url)
 	Verbose(verbose, "Running: %s", strings.Join(cmd.Args, " "))
 
+	var stderrBuf bytes.Buffer
+	cmd.Stderr = &stderrBuf
+
 	out, err := cmd.Output()
 	close(done)
 	ClearLine()
 
 	if err != nil {
+		errMsg := strings.TrimSpace(stderrBuf.String())
+		if errMsg != "" {
+			return nil, fmt.Errorf("failed to fetch metadata: %s", errMsg)
+		}
 		return nil, fmt.Errorf("failed to fetch metadata: %w", err)
 	}
 
