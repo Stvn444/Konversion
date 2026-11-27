@@ -140,7 +140,11 @@ Make sure you're pasting the full URL. These formats work:
 
 - `https://www.youtube.com/watch?v=VIDEO_ID`
 - `https://youtu.be/VIDEO_ID`
-- `https://www.youtube.com/embed/VIDEO_ID`
+- `https://www.youtube.com/shorts/VIDEO_ID`
+- `https://www.youtube.com/embed/VIDEO_ID` and `/live/VIDEO_ID`
+- `m.youtube.com` and `music.youtube.com` links work too
+
+Playlist and channel links aren't supported. A video link that's part of a playlist (`watch?v=…&list=…`) downloads just that one video.
 
 ### How do I update Konversion?
 

@@ -35,8 +35,15 @@ func main() {
 
 	for {
 		fmt.Print("Enter YouTube URL (or 'quit' to exit): ")
-		input, _ := reader.ReadString('\n')
+		input, err := reader.ReadString('\n')
 		input = strings.TrimSpace(input)
+
+		// Ctrl-D / closed stdin: stop instead of looping forever.
+		if err != nil && input == "" {
+			fmt.Println()
+			fmt.Println("Goodbye!")
+			break
+		}
 
 		if input == "quit" || input == "q" {
 			fmt.Println("Goodbye!")
@@ -48,18 +55,20 @@ func main() {
 		}
 
 		// Validate URL
-		if !IsValidYouTubeURL(input) {
+		url, ok := NormalizeYouTubeURL(input)
+		if !ok {
 			fmt.Println("Error: Invalid YouTube URL format")
 			fmt.Println("Supported formats:")
 			fmt.Println("  - https://www.youtube.com/watch?v=VIDEO_ID")
 			fmt.Println("  - https://youtu.be/VIDEO_ID")
-			fmt.Println("  - https://www.youtube.com/embed/VIDEO_ID")
+			fmt.Println("  - https://www.youtube.com/shorts/VIDEO_ID")
+			fmt.Println("  (playlist and channel links aren't supported)")
 			fmt.Println()
 			continue
 		}
 
 		// Download and convert
-		if err := DownloadAndConvert(input, opts); err != nil {
+		if err := DownloadAndConvert(url, opts); err != nil {
 			fmt.Printf("Error: %v\n", err)
 		}
 		fmt.Println()
