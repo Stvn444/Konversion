@@ -101,9 +101,29 @@ Enter YouTube URL (or 'quit' to exit):
 
 It loops — keep pasting URLs back to back. Type `quit` when you're done.
 
+### Command-line options
+
+You can also skip the prompt and pass links directly. Konversion converts each one and exits:
+
+```bash
+konversion https://youtu.be/VIDEO_ID https://youtu.be/ANOTHER_ID
+```
+
+| Option | What it does |
+| --- | --- |
+| `-q`, `--quality KBPS` | MP3 bitrate: 128, 192, 256 or 320 (default 320) |
+| `-o`, `--output DIR` | Folder to save MP3s in (default `~/Downloads`) |
+| `-k`, `--keep-video` | Also keep the full video (downloads video, not just audio) |
+| `--no-meta` | Don't embed title, artist or cover art |
+| `-v`, `--verbose` | Show the yt-dlp commands and their output |
+| `--version` | Print the version |
+| `-h`, `--help` | Show help |
+
+Options work with the prompt too, e.g. `konversion -o ~/Music/samples` saves everything from that session there.
+
 ### Where Do My MP3s Go?
 
-Your **Downloads** folder. After every download it prints the full path so you know exactly where to find it.
+Your **Downloads** folder, unless you pick another one with `-o`. After every download it prints the full path so you know exactly where to find it.
 
 ---
 
